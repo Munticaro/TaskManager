@@ -1,11 +1,12 @@
 import {tasksReducer} from '../features/TodolistLists/store/tasks-reducer';
 import {todolistsReducer} from '../features/TodolistLists/store/todolists-reducer';
-import {combineReducers, AnyAction, legacy_createStore, applyMiddleware} from 'redux';
+import {combineReducers, AnyAction, Middleware} from 'redux';
 
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import thunk, {ThunkDispatch} from "redux-thunk";
 import {appReducer} from "./app-reducer";
 import {isLoggedIn} from "../features/Login/auth-reducer";
+import {configureStore} from "@reduxjs/toolkit";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -16,7 +17,13 @@ const rootReducer = combineReducers({
     auth: isLoggedIn
 })
 // непосредственно создаём store
-export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
+// export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
+
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk)
+})
+
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
 export type AppDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>

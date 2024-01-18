@@ -86,18 +86,18 @@ export const Todolist: React.FC<PropsType> = React.memo(function ({demo = false,
                 <div>
                     <Button variant={todoFilter === 'all' ? 'outlined' : 'text'}
                             onClick={onAllClickHandler}
-                            color={'secondary'}>
+                            color={'inherit'}>
                         All
                     </Button>
                     <Button variant={todoFilter === 'active' ? 'outlined' : 'text'}
                             onClick={onActiveClickHandler}
-                            color={'primary'}
+                            color={'error'}
                     >
                         Active
                     </Button>
                     <Button variant={todoFilter === 'completed' ? 'outlined' : 'text'}
                             onClick={onCompletedClickHandler}
-                            color="success">
+                            color={"warning"}>
                         Completed
                     </Button>
                 </div>

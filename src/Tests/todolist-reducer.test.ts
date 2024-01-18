@@ -7,10 +7,10 @@ import {
     setTodolistsAC,
     TodolistDomainType,
     todolistsReducer
-} from '../store/todolists-reducer'
+} from '../features/TodolistLists/store/todolists-reducer'
 import {v1} from 'uuid'
-import {TodolistType} from "../../../api/todolists-api";
-import {RequestStatusType} from "../../../app/app-reducer";
+import {TodolistType} from "../api/todolists-api";
+import {RequestStatusType} from "../app/app-reducer";
 
 let todolistId1: string
 let todolistId2: string
