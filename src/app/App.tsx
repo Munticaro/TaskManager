@@ -8,13 +8,15 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
-import {CircularProgress, LinearProgress} from "@mui/material";
+import {CircularProgress, CssBaseline, LinearProgress} from "@mui/material";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useAppDispatch, useAppSelector} from "./store";
 import {isInitializedAppTC, logoutTC, RequestStatusType} from "./app-reducer";
 import React, {useEffect} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+
 
 export type TasksStateType = {
     [key: string]: TaskType[]
@@ -32,9 +34,15 @@ function App({demo = false, ...props}: AppPT) {
 
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
 
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(isInitializedAppTC())
     }, [])
+
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+        },
+    });
 
     if (!isInitialized) {
         return (
@@ -46,7 +54,7 @@ function App({demo = false, ...props}: AppPT) {
                     width: "100%",
                 }}
             >
-                <CircularProgress />
+                <CircularProgress/>
             </div>
         )
     }
@@ -57,31 +65,34 @@ function App({demo = false, ...props}: AppPT) {
 
     return (
         <BrowserRouter>
-            <div className="App">
-                <ErrorSnackbar/>
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton edge="start" color="inherit" aria-label="menu">
-                            <Menu/>
-                        </IconButton>
-                        <Typography variant="h6">
-                            News
-                        </Typography>
-                        <Button color="inherit" onClick={logoutHandler}>Logout</Button>
-                    </Toolbar>
-                    {status === 'loading' && <LinearProgress color="secondary"/>}
-                </AppBar>
-                <Container fixed>
-                    <Routes>
-                        <Route path={'/'} element={ <TodolistsList demo={demo}/> }/>
-                        <Route path={'/login'} element={ <Login/> }/>
-                    </Routes>
-
-                </Container>
-            </div>
+            <ThemeProvider theme={darkTheme}>
+                <CssBaseline/>
+                <div className="App">
+                    <ErrorSnackbar/>
+                    <AppBar position="static">
+                        <Toolbar>
+                            <IconButton edge="start" color="inherit" aria-label="menu">
+                                <Menu/>
+                            </IconButton>
+                            <Typography variant="h6">
+                                News
+                            </Typography>
+                            <Button color="inherit"
+                                    variant={'outlined'}
+                                    onClick={logoutHandler}
+                                    style={{marginLeft: "auto"}}>Logout</Button>
+                        </Toolbar>
+                        {status === 'loading' && <LinearProgress color="secondary"/>}
+                    </AppBar>
+                    <Container fixed>
+                        <Routes>
+                            <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
+                            <Route path={'/login'} element={<Login/>}/>
+                        </Routes>
+                    </Container>
+                </div>
+            </ThemeProvider>
         </BrowserRouter>
-
-
     )
 }
 
