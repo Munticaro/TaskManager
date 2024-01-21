@@ -11,11 +11,12 @@ import {Menu} from '@mui/icons-material';
 import {CircularProgress, CssBaseline, LinearProgress} from "@mui/material";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useAppDispatch, useAppSelector} from "./store";
-import {isInitializedAppTC, logoutTC, RequestStatusType} from "./app-reducer";
+import {isInitializedAppTC, RequestStatusType} from "./app-reducer";
 import React, {useEffect} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
+import {logoutTC} from "../features/Login/auth-reducer";
 
 
 export type TasksStateType = {

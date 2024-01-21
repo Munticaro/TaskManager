@@ -1,11 +1,21 @@
 import React from 'react';
-import App from './App';
-import { ReduxStoreProviderDecorator } from '../features/TodolistLists/store/ReduxStoreProviderDecorator';
 
-export default {
-  title: 'TODOLISTS/App',
-  component: App,
-  decorators: [ReduxStoreProviderDecorator],
+const AppStories = () => {
+  return (
+      <div>
+        
+      </div>
+  );
 };
 
-export const AppStory = () => <App demo={true} />;
+export default AppStories;
+// import App from './App';
+// import { ReduxStoreProviderDecorator } from '../features/TodolistLists/store/ReduxStoreProviderDecorator';
+//
+// export default {
+//   title: 'TODOLISTS/App',
+//   component: App,
+//   decorators: [ReduxStoreProviderDecorator],
+// };
+//
+// export const AppStory = () => <App demo={true} />;
