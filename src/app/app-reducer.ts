@@ -2,9 +2,10 @@ import {Dispatch} from "redux";
 import {authAPI} from "../api/todolists-api";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {authActions} from "../features/Login/auth-reducer";
+import {AppThunk} from "./store";
 
 export const slice = createSlice({
-    name: 'appReducer',
+    name: 'app',
     initialState: {
         error: null as null | string,
         status: 'idle' as RequestStatusType,

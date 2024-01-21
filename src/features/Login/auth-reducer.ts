@@ -3,6 +3,7 @@ import {authAPI, LoginParamsType} from "../../api/todolists-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {appActions} from "../../app/app-reducer";
+import {AppThunk} from "../../app/store";
 
 
 const slice = createSlice({
@@ -21,7 +22,7 @@ export const authActions = slice.actions
 export const authReducer = slice.reducer
 
 // Thunks
-export const loginTC = (params: LoginParamsType) => (dispatch: Dispatch) => {
+export const loginTC = (params: LoginParamsType): AppThunk => (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatus({ status: "loading" }))
     authAPI.login(params)
         .then(res => {
@@ -37,7 +38,7 @@ export const loginTC = (params: LoginParamsType) => (dispatch: Dispatch) => {
         })
 }
 
-export const logoutTC = () => (dispatch: Dispatch) => {
+export const logoutTC = (): AppThunk => (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatus({ status: "loading" }))
     authAPI.logout()
         .then(res => {

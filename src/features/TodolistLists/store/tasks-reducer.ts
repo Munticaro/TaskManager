@@ -1,8 +1,7 @@
 import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskType} from "../../../api/todolists-api";
 import {TasksStateType} from "../../../app/App";
 import {Dispatch} from "redux";
-import {AppRootStateType} from "../../../app/store";
-import {AddTodolistAT, RemoveTodolistAT, SetTodolistsAT} from "./todolists-reducer";
+import {AppRootStateType, AppThunk} from "../../../app/store";
 
 import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
 import {appActions} from "../../../app/app-reducer";
@@ -60,7 +59,7 @@ export const setTasksAC = (todolistId: string, tasks: TaskType[]) => {
 }
 
 // Thunks
-export const getTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
+export const getTasksTC = (todolistId: string): AppThunk => (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatus({status: 'loading'}))
     todolistAPI.getTask(todolistId)
         .then((res) => {
@@ -72,7 +71,7 @@ export const getTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
         })
 }
 
-export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch) => {
+export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatus({status: 'loading'}))
     todolistAPI.deleteTask(todolistId, taskId)
         .then(res => {
@@ -84,7 +83,7 @@ export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: D
         })
 }
 
-export const addTaskTC = (todoListId: string, title: string) => (dispatch: Dispatch) => {
+export const addTaskTC = (todoListId: string, title: string): AppThunk => (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatus({status: 'loading'}))
     todolistAPI.createTask(todoListId, title)
         .then(res => {
@@ -103,7 +102,7 @@ export const addTaskTC = (todoListId: string, title: string) => (dispatch: Dispa
 }
 
 export const updateTaskTC =
-    (taskId: string, todoListId: string, domainModel: UpdateDomainTaskType) =>
+    (taskId: string, todoListId: string, domainModel: UpdateDomainTaskType): AppThunk =>
         (dispatch: Dispatch, getState: () => AppRootStateType) => {
             const state = getState()
             const task = state.tasks[todoListId].find(t => t.id === taskId)
