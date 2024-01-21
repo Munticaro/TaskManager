@@ -1,7 +1,6 @@
-import {appActions, RequestStatusType, setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
-import {createSlice} from "@reduxjs/toolkit";
+import {appActions, appReducer, AppState, RequestStatusType} from "../app/app-reducer";
 
-let startState: InitialStateType
+let startState: AppState
 
 beforeEach(() => {
     startState = {
@@ -13,11 +12,11 @@ beforeEach(() => {
 
 
 test('correct error message should be set', () => {
-    const endState = appActions(startState, setAppErrorAC({error:'Some error'}))
+    const endState = appReducer(startState, appActions.setAppError({error:'Some error'}))
     expect(endState.error).toBe('Some error')
 })
 
 test('correct status should be set', () => {
-    const endState = createSlice(startState, setAppStatusAC({status:'loading'}))
+    const endState = appReducer(startState, appActions.setAppStatus({status:'loading'}))
     expect(endState.error).toBe('loading')
 })
