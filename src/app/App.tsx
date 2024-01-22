@@ -1,5 +1,4 @@
 import './App.css';
-import {TaskType} from "../api/todolists-api";
 import {TodolistsList} from "../features/TodolistLists/TodolistLists";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,11 +16,6 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {logoutTC} from "../features/Login/auth-reducer";
-
-
-export type TasksStateType = {
-    [key: string]: TaskType[]
-}
 
 type AppPT = {
     demo?: boolean

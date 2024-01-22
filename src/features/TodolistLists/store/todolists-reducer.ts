@@ -40,7 +40,7 @@ export const slice = createSlice({
                 todolist.entityStatus = action.payload.status
             }
         },
-    }
+    },
 })
 
 export const todolistsActions = slice.actions

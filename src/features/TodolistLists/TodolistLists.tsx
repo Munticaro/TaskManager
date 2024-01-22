@@ -1,18 +1,17 @@
 import {
     addTodolistTC,
-    changeTodolistFilterAC, changeTodolistTitleTC,
+    changeTodolistTitleTC,
     FilterValuesType,
     getTodolistTC, removeTodolistTC,
-    TodolistDomainType
+    TodolistDomainType, todolistsActions
 } from "./store/todolists-reducer";
 import React, {useCallback, useEffect} from "react";
 import {useSelector} from "react-redux";
 import {AppDispatchType, AppRootStateType, useAppDispatch, useAppSelector} from "../../app/store";
-import {addTaskTC, removeTaskTC, updateTaskTC} from "./store/tasks-reducer";
+import {addTaskTC, removeTaskTC, TasksStateType, updateTaskTC} from "./store/tasks-reducer";
 import {TaskStatuses} from "../../api/todolists-api";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
-import {TasksStateType} from "../../app/App";
 import {Grid, Paper} from "@mui/material";
 import {Navigate} from "react-router-dom";
 
@@ -59,7 +58,7 @@ export const TodolistsList: React.FC<TodolistListsPT> = ({demo = false}) => {
         dispatch(thunk)
     }, [dispatch])
     const changeFilter = useCallback((todolistId: string, value: FilterValuesType) => {
-        dispatch(changeTodolistFilterAC(todolistId, value))
+        dispatch(todolistsActions.changeTodolistFilter({id: todolistId, filter: value}))
     }, [dispatch])
     const removeTodolist = useCallback((todolistId: string) => {
         let thunk = removeTodolistTC(todolistId)
