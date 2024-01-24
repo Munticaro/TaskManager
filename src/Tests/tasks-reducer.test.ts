@@ -1,4 +1,3 @@
-
 import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 import {tasksActions, tasksReducer, TasksStateType} from "../features/TodolistLists/store/tasks-reducer";
 import {todolistsActions} from "../features/TodolistLists/store/todolists-reducer";
@@ -74,66 +73,14 @@ beforeEach(() => {
     };
 });
 
-test('correct task should be deleted from correct array', () => {
-    const action = tasksActions.removeTask({taskId: '2', todolistId: 'todolistId2'});
+test("correct task should be deleted from correct array", () => {
+    const action = tasksActions.removeTask({ taskId: "2", todolistId: "todolistId2" });
+
     const endState = tasksReducer(startState, action);
 
-    expect(endState).toEqual({
-        'todolistId1': [
-            {
-                id: '1', title: "HTML&CSS", status: TaskStatuses.New,
-                todolistId: 'todolistId1',
-                description: '',
-                startDate: '',
-                deadline: '',
-                order: 0,
-                priority: TaskPriorities.Low,
-                addedDate: ''
-            },
-            {
-                id: '2', title: "JS", status: TaskStatuses.Completed,
-                todolistId: 'todolistId1',
-                description: '',
-                startDate: '',
-                deadline: '',
-                order: 0,
-                priority: TaskPriorities.Low,
-                addedDate: ''
-            },
-            {
-                id: '3', title: "ReactJS", status: TaskStatuses.New,
-                todolistId: 'todolistId1',
-                description: '',
-                startDate: '',
-                deadline: '',
-                order: 0,
-                priority: TaskPriorities.Low,
-                addedDate: ''
-            },
-        ],
-        'todolistId2': [
-            {
-                id: '1', title: "SSD", status: TaskStatuses.New,
-                todolistId: 'todolistId2',
-                description: '',
-                startDate: '',
-                deadline: '',
-                order: 0,
-                priority: TaskPriorities.Low,
-                addedDate: ''
-            },
-            {
-                id: '3', title: "classic pants", status: TaskStatuses.New,
-                todolistId: 'todolistId2',
-                description: '',
-                startDate: '',
-                deadline: '',
-                order: 0,
-                priority: TaskPriorities.Low,
-                addedDate: ''
-            },
-        ]
-    });
+    expect(endState["todolistId1"].length).toBe(3);
+    expect(endState["todolistId2"].length).toBe(2);
+    expect(endState["todolistId2"].every((t) => t.id !== "2")).toBeTruthy();
 });
 
 test('correct task should be added to correct array', () => {

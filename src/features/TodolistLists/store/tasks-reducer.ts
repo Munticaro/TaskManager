@@ -15,8 +15,10 @@ export const slice = createSlice({
             taskForTodolist.unshift(action.payload.task)
 
         },
-        removeTask: (state, action: PayloadAction<{taskId: string, todolistId: string}>) => {
-            state.todolistId.filter(t => t.id !== action.payload.taskId)
+        removeTask: (state, action: PayloadAction<{ taskId: string; todolistId: string }>) => {
+            const tasks = state[action.payload.todolistId];
+            const index = tasks.findIndex((t) => t.id === action.payload.taskId);
+            if (index !== -1) tasks.splice(index, 1);
         },
         updateTask: (state, action: PayloadAction<{taskId: string, model: UpdateDomainTaskType, todoListId: string}>) => {
             const taskForTodolist = state[action.payload.todoListId]
@@ -63,6 +65,7 @@ export const getTasksTC = (todolistId: string): AppThunk => (dispatch: Dispatch)
 }
 
 export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch: Dispatch) => {
+    console.log('1')
     dispatch(appActions.setAppStatus({status: 'loading'}))
     todolistAPI.deleteTask(todolistId, taskId)
         .then(res => {

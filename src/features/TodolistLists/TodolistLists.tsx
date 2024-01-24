@@ -30,7 +30,6 @@ export const TodolistsList: React.FC<TodolistListsPT> = ({demo = false}) => {
     const isLoggedIn =
         useAppSelector(state => state.auth.isLoggedIn)
 
-    debugger
 
     const dispatch: AppDispatchType = useAppDispatch()
 
