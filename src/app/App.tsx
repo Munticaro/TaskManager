@@ -12,7 +12,7 @@ import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useAppDispatch, useAppSelector} from "./store";
 import {isInitializedAppTC, RequestStatusType} from "./app-reducer";
 import React, {useEffect} from "react";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, MemoryRouter, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {logoutTC} from "../features/Login/auth-reducer";
@@ -30,7 +30,9 @@ function App({demo = false, ...props}: AppPT) {
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
 
     useEffect(() => {
-        dispatch(isInitializedAppTC())
+        if (!demo) {
+            dispatch(isInitializedAppTC())
+        }
     }, [])
 
     const darkTheme = createTheme({
