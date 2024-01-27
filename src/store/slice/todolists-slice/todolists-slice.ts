@@ -1,9 +1,10 @@
-import {todolistAPI, TodolistType} from "../../../api/todolists-api";
+import {todolistAPI, TodolistType} from "../../../api/todolist-api/todolists-api";
 import {Dispatch} from "redux";
-import {appActions, RequestStatusType} from "../../../app/app-reducer";
+import {appActions, RequestStatusType} from "../app-slice/app-slice";
 import {handleServerNetworkError} from "../../../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AppThunk} from "../../../app/store";
+import {AppThunk} from "../../store";
+import {clearTodolistsAndTasks} from "../../../common/actions/common.actions";
 
 export const slice = createSlice({
     name: 'todolists',
@@ -41,10 +42,16 @@ export const slice = createSlice({
             }
         },
     },
+    extraReducers: builder => {
+        builder
+            .addCase(clearTodolistsAndTasks.type, () => {
+                return []
+            })
+    }
 })
 
 export const todolistsActions = slice.actions
-export const todolistsReducer = slice.reducer
+export const todolistsSlice = slice.reducer
 
 // Thunks
 export const getTodolistTC = (): AppThunk => (dispatch: Dispatch) => {

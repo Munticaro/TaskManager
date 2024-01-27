@@ -1,5 +1,5 @@
-import {appActions} from "../app/app-reducer";
-import {ResponseType} from "../api/todolists-api";
+import {appActions} from "../store/slice/app-slice/app-slice";
+import {ResponseType} from "../api/todolist-api/todolists-api";
 import {Dispatch} from "redux";
 
 

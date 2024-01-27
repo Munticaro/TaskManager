@@ -8,8 +8,8 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {useAppDispatch, useAppSelector} from "../../app/store";
-import {loginTC} from "./auth-reducer";
+import {useAppDispatch, useAppSelector} from "../../store/store";
+import {loginTC} from "../../store/slice/auth-slice/auth-slice";
 import {Navigate} from "react-router-dom";
 
 export const Login = () => {

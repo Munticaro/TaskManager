@@ -1,6 +1,6 @@
-import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
-import {tasksActions, tasksReducer, TasksStateType} from "../features/TodolistLists/store/tasks-reducer";
-import {todolistsActions} from "../features/TodolistLists/store/todolists-reducer";
+import {TaskPriorities, TaskStatuses} from "../api/todolist-api/todolists-api";
+import {tasksActions, tasksSlice, TasksStateType, tasksThunks} from "../store/slice/task-slice/tasks-slice";
+import {todolistsActions} from "../store/slice/todolists-slice/todolists-slice";
 
 let startState: TasksStateType;
 
@@ -74,9 +74,11 @@ beforeEach(() => {
 });
 
 test("correct task should be deleted from correct array", () => {
-    const action = tasksActions.removeTask({ taskId: "2", todolistId: "todolistId2" });
+    const param = {taskId: "2", todolistId: "todolistId2"};
+    const action = tasksThunks.removeTask.fulfilled(param, 'requestId', param);
 
-    const endState = tasksReducer(startState, action);
+
+    const endState = tasksSlice(startState, action);
 
     expect(endState["todolistId1"].length).toBe(3);
     expect(endState["todolistId2"].length).toBe(2);
@@ -99,7 +101,7 @@ test('correct task should be added to correct array', () => {
         id: 'id exist'
     }
     })
-    const endState = tasksReducer(startState, action)
+    const endState = tasksSlice(startState, action)
 
     expect(endState['todolistId1'].length).toBe(3)
     expect(endState['todolistId2'].length).toBe(4)
@@ -109,14 +111,14 @@ test('correct task should be added to correct array', () => {
 })
 test('status of specified task should be changed', () => {
     const action = tasksActions.updateTask({taskId: '2', model: {title: 'Sasha'}, todoListId: 'todolistId2'})
-    const endState = tasksReducer(startState, action)
+    const endState = tasksSlice(startState, action)
     expect(endState["todolistId1"][1].title).toBe("JS")
     expect(endState["todolistId2"][1].title).toBe("Sasha")
     expect(endState["todolistId2"][0].title).toBe("SSD")
 })
 test('title of specified task should be changed', () => {
     const action = tasksActions.updateTask({taskId: '2', model: {title: 'Sasha'}, todoListId: 'todolistId2'})
-    const endState = tasksReducer(startState, action)
+    const endState = tasksSlice(startState, action)
     expect(endState['todolistId2'][1].status).toBe(2)
     expect(endState['todolistId1'][1].status).toBe(2)
 })
@@ -128,7 +130,7 @@ test('new property with new array should be added when new todolist is added', (
         order: 0,
         addedDate: ''}
     })
-    const endState = tasksReducer(startState, action)
+    const endState = tasksSlice(startState, action)
     const keys = Object.keys(endState)
     const newKey = keys.find(k => k != 'todolistId1' && k != 'todolistId2')
     if (!newKey) {
@@ -140,7 +142,7 @@ test('new property with new array should be added when new todolist is added', (
 })
 test('property with todolistId should be deleted', () => {
     const action = todolistsActions.removeTodolist({id: 'todolistId2'})
-    const endState = tasksReducer(startState, action)
+    const endState = tasksSlice(startState, action)
     const keys = Object.keys(endState)
 
     expect(keys.length).toBe(1)
@@ -155,7 +157,7 @@ test('empty arrays should be added when we set todolists', () => {
         ],
         }
     )
-    const endState = tasksReducer({}, action)
+    const endState = tasksSlice({}, action)
     const keys = Object.keys(endState)
 
     expect(keys.length).toBe(2)
@@ -164,9 +166,11 @@ test('empty arrays should be added when we set todolists', () => {
 })
 
 test('tasks should be added for todolist', () => {
-    const action = tasksActions
-        .setTasks( {todolistId: 'todolistId1', tasks: startState['todolistId1']})
-    const endState = tasksReducer({
+    const action = tasksThunks.fetchTasks.fulfilled(
+        {tasks: startState['todolistId1'], todolistId: 'todolistId1'},
+        'requestId', 'todolistId1')
+    debugger
+    const endState = tasksSlice({
         'todolistId1': [],
         'todolistId2': []
     }, action);

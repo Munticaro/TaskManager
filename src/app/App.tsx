@@ -9,13 +9,13 @@ import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
 import {CircularProgress, CssBaseline, LinearProgress} from "@mui/material";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {useAppDispatch, useAppSelector} from "./store";
-import {isInitializedAppTC, RequestStatusType} from "./app-reducer";
+import {useAppDispatch, useAppSelector} from "../store/store";
+import {isInitializedAppTC, RequestStatusType} from "../store/slice/app-slice/app-slice";
 import React, {useEffect} from "react";
-import {BrowserRouter, MemoryRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {logoutTC} from "../features/Login/auth-reducer";
+import {logoutTC} from "../store/slice/auth-slice/auth-slice";
 
 type AppPT = {
     demo?: boolean
@@ -35,11 +35,7 @@ function App({demo = false, ...props}: AppPT) {
         }
     }, [])
 
-    const darkTheme = createTheme({
-        palette: {
-            mode: 'dark',
-        },
-    });
+
 
     if (!isInitialized) {
         return (
@@ -55,6 +51,12 @@ function App({demo = false, ...props}: AppPT) {
             </div>
         )
     }
+
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+        },
+    });
 
     const logoutHandler = () => {
         dispatch(logoutTC())

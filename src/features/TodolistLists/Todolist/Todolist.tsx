@@ -2,12 +2,12 @@ import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Task} from "./Task/Task";
-import {TaskStatuses, TaskType} from "../../../api/todolists-api";
-import {FilterValuesType, TodolistDomainType} from "../store/todolists-reducer";
-import {AppDispatchType, useAppDispatch} from "../../../app/store";
-import {getTasksTC} from "../store/tasks-reducer";
+import {TaskStatuses, TaskType} from "../../../api/todolist-api/todolists-api";
+import {FilterValuesType, TodolistDomainType} from "../../../store/slice/todolists-slice/todolists-slice";
+import {AppDispatch, useAppDispatch} from "../../../store/store";
 import {Button, IconButton} from "@mui/material";
 import {PlaylistRemove} from "@mui/icons-material";
+import {tasksThunks} from "../../../store/slice/task-slice/tasks-slice";
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -30,13 +30,13 @@ export const Todolist: React.FC<PropsType> = React.memo(function ({demo = false,
     const onCompletedClickHandler = useCallback(() => props.changeFilter(todoId, "completed"), [props.changeFilter, todoId])
     const onActiveClickHandler = useCallback(() => props.changeFilter(todoId, "active"), [props.changeFilter, todoId])
 
-    const dispatch: AppDispatchType = useAppDispatch()
+    const dispatch: AppDispatch = useAppDispatch()
 
     useEffect(() => {
         if (demo) {
             return
         }
-        dispatch(getTasksTC(todoId))
+        dispatch(tasksThunks.fetchTasks(props.todolist.id))
     }, []);
     const removeTodolist = () => {
         props.removeTodolist(todoId)

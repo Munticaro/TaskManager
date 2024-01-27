@@ -4,12 +4,17 @@ import {
     FilterValuesType,
     getTodolistTC, removeTodolistTC,
     TodolistDomainType, todolistsActions
-} from "./store/todolists-reducer";
+} from "../../store/slice/todolists-slice/todolists-slice";
 import React, {useCallback, useEffect} from "react";
 import {useSelector} from "react-redux";
-import {AppDispatchType, AppRootStateType, useAppDispatch, useAppSelector} from "../../app/store";
-import {addTaskTC, removeTaskTC, TasksStateType, updateTaskTC} from "./store/tasks-reducer";
-import {TaskStatuses} from "../../api/todolists-api";
+import {AppDispatch, AppRootStateType, useAppDispatch, useAppSelector} from "../../store/store";
+import {
+    addTaskTC,
+    TasksStateType,
+    tasksThunks,
+    updateTaskTC
+} from "../../store/slice/task-slice/tasks-slice";
+import {TaskStatuses} from "../../api/todolist-api/todolists-api";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Grid, Paper} from "@mui/material";
@@ -31,7 +36,7 @@ export const TodolistsList: React.FC<TodolistListsPT> = ({demo = false}) => {
         useAppSelector(state => state.auth.isLoggedIn)
 
 
-    const dispatch: AppDispatchType = useAppDispatch()
+    const dispatch: AppDispatch = useAppDispatch()
 
     useEffect(() => {
         if (demo || !isLoggedIn) {
@@ -41,8 +46,8 @@ export const TodolistsList: React.FC<TodolistListsPT> = ({demo = false}) => {
         dispatch(thunk)
     }, [])
 
-    const removeTask = useCallback((id: string, todolistId: string) => {
-        dispatch(removeTaskTC(id, todolistId))
+    const removeTask = useCallback((taskId: string, todolistId: string) => {
+        dispatch(tasksThunks.removeTask({taskId, todolistId}))
     }, [])
 
     const addTask = useCallback((todolistId: string, title: string) => {

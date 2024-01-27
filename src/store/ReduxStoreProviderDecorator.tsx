@@ -1,22 +1,18 @@
 import React from 'react'
 import {Provider} from "react-redux";
-import {AppRootStateType} from "../../../app/store";
+import {AppRootStateType} from "./store";
 import {combineReducers} from "redux";
-import {tasksReducer} from './tasks-reducer';
-import {todolistsReducer} from "./todolists-reducer";
+import {tasksSlice} from './slice/task-slice/tasks-slice';
+import {todolistsSlice} from "./slice/todolists-slice/todolists-slice";
 import {v1} from "uuid";
-import {TaskPriorities, TaskStatuses} from "../../../api/todolists-api";
-import {appReducer, RequestStatusType} from "../../../app/app-reducer";
+import {TaskPriorities, TaskStatuses} from "../api/todolist-api/todolists-api";
+import {appSlice, RequestStatusType} from "./slice/app-slice/app-slice";
 import {configureStore} from "@reduxjs/toolkit";
-import {MemoryRouter, Route, Routes} from "react-router-dom";
-import {DecoratorFn} from "@storybook/react";
-import {AppStory} from "../../../app/App.stories";
-import {Story} from "@storybook/blocks";
 
 const rootReducer = combineReducers({
-    tasks: tasksReducer,
-    todolists: todolistsReducer,
-    app: appReducer
+    tasks: tasksSlice,
+    todolists: todolistsSlice,
+    app: appSlice
 })
 
 const initialGlobalState: AppRootStateType = {
@@ -94,6 +90,8 @@ export const storyBookStore = configureStore({
 })
 
 
-export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => {
-    return <Provider store={storyBookStore}>{storyFn()}</Provider>
-}
+export const ReduxStoreProviderDecorator = (storyFn: any) => {
+    return (
+        <Provider store={storyBookStore}>{storyFn()}</Provider>
+    );
+};

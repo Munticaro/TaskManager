@@ -2,7 +2,7 @@ import React from 'react';
 import App from './App';
 import {
   ReduxStoreProviderDecorator
-} from '../features/TodolistLists/store/ReduxStoreProviderDecorator';
+} from '../store/ReduxStoreProviderDecorator';
 
 export default {
   title: 'TODOLISTS/App',

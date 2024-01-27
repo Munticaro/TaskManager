@@ -4,7 +4,7 @@ import {action} from '@storybook/addon-actions';
 
 import React, {useState} from "react";
 import {Task} from "./Task";
-import {TaskPriorities, TaskStatuses} from "../../../../api/todolists-api";
+import {TaskPriorities, TaskStatuses} from "../../../../api/todolist-api/todolists-api";
 
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

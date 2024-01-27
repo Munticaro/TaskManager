@@ -1,8 +1,8 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../api/todolists-api";
+
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {authActions} from "../features/Login/auth-reducer";
-import {AppThunk} from "./store";
+import {authActions} from "../auth-slice/auth-slice";
+import {authAPI} from "../../../api/auth-api/auth-api";
 
 export const slice = createSlice({
     name: 'app',
@@ -25,10 +25,9 @@ export const slice = createSlice({
 })
 
 export const appActions = slice.actions
-export const appReducer = slice.reducer
+export const appSlice = slice.reducer
 
 export const isInitializedAppTC = () => (dispatch: Dispatch) => {
-    dispatch(appActions.setAppStatus({status: 'loading'}))
     authAPI.me()
         .then(res => {
             if (res.data.resultCode === 0) {
