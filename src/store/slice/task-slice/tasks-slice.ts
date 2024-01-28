@@ -41,6 +41,7 @@ export const slice = createSlice({
         addTask: (state, action: PayloadAction<{ task: TaskType }>) => {
             const taskForTodolist = state[action.payload.task.todoListId]
             taskForTodolist.unshift(action.payload.task)
+
         },
         updateTask: (state, action: PayloadAction<{
             taskId: string,
