@@ -8,7 +8,7 @@ import {authAPI} from "../../../api/auth-api/auth-api";
 import {clearTodolistsAndTasks} from "../../../common/actions/common.actions";
 
 export const login = createAsyncThunk('auth/login', async (param: LoginParamsType, thunkAPI) => {
-    const {dispatch} = thunkAPI
+    const {dispatch, rejectWithValue} = thunkAPI
     dispatch(appActions.setAppStatus({status: "loading"}))
     try {
         const res = await authAPI.login(param)
@@ -17,10 +17,11 @@ export const login = createAsyncThunk('auth/login', async (param: LoginParamsTyp
             return {isLoggedIn: true}
         } else {
             handleServerAppError(res.data, dispatch)
-            return {isLoggedIn: false}
+            return rejectWithValue(null);
         }
-    } catch (error) {
-        return {isLoggedIn: false}
+    } catch (e) {
+        handleServerNetworkError(e, dispatch);
+        return rejectWithValue(null);
     }
 })
 
