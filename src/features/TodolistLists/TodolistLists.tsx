@@ -9,10 +9,9 @@ import React, {useCallback, useEffect} from "react";
 import {useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType, useAppDispatch, useAppSelector} from "../../store/store";
 import {
-    addTaskTC,
     TasksStateType,
     tasksThunks,
-    updateTaskTC
+    updateTask
 } from "../../store/slice/task-slice/tasks-slice";
 import {TaskStatuses} from "../../api/todolist-api/todolists-api";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
@@ -51,14 +50,14 @@ export const TodolistsList: React.FC<TodolistListsPT> = ({demo = false}) => {
     }, [])
 
     const addTask = useCallback((todolistId: string, title: string) => {
-        dispatch(addTaskTC(title, todolistId))
+        dispatch(tasksThunks.addTask({title, todolistId}))
     }, [])
     const changeStatus = useCallback((taskId: string, status: TaskStatuses, todolistId: string) => {
-        const thunk = updateTaskTC(taskId, todolistId,{status} )
+        const thunk = updateTask(taskId, todolistId,{status} )
         dispatch(thunk) // Checked
     }, [])
     const changeTaskTitle = useCallback((taskId: string, todolistId: string, newTitle: string) => {
-        const thunk = updateTaskTC(taskId, todolistId, {title: newTitle} )
+        const thunk = updateTask(taskId, todolistId, {title: newTitle} )
         dispatch(thunk)
     }, [dispatch])
     const changeFilter = useCallback((todolistId: string, value: FilterValuesType) => {

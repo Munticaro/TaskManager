@@ -7,10 +7,11 @@ import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {useFormik} from "formik";
+import {FormikHelpers, FormikValues, useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../../store/store";
-import {loginTC} from "../../store/slice/auth-slice/auth-slice";
 import {Navigate} from "react-router-dom";
+import {authThunks} from "../../store/slice/auth-slice/auth-slice";
+import {LoginParamsType} from "../../api/todolist-api/todolists-api";
 
 export const Login = () => {
     const dispatch = useAppDispatch()
@@ -19,12 +20,12 @@ export const Login = () => {
 
     const formik = useFormik({
         validate: (values) => {
-            if(!values.email) {
+            if (!values.email) {
                 return {
                     email: 'Email is required!'
                 }
             }
-            if(!values.password) {
+            if (!values.password) {
                 return {
                     password: 'Password is required!'
                 }
@@ -35,21 +36,23 @@ export const Login = () => {
             password: '',
             rememberMe: false
         },
-        onSubmit: values => {
-            dispatch(loginTC(values))
-            alert(JSON.stringify(values));
+        onSubmit: async (values, formikHelpers: FormikHelpers<LoginParamsType>) => {
+            const res = await dispatch(authThunks.login(values))
+            formikHelpers.setFieldError("email", 'ne to vvel braza')
+
         },
     });
 
     if (isLoggedIn) {
-        return <Navigate to={"/"} />
+        return <Navigate to={"/"}/>
     }
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <FormControl>
                 <form onSubmit={formik.handleSubmit}>
-                    <FormLabel>
+                    <FormLabel color={"secondary"}>
+
                         <p>To log in get registered
                             <a href={'https://social-network.samuraijs.com/'}
                                target={'_blank'}> here
@@ -61,12 +64,14 @@ export const Login = () => {
                     </FormLabel>
                     <FormGroup>
                         <TextField
+                            color={'secondary'}
                             label="Email"
                             margin="normal"
                             {...formik.getFieldProps('email')}
                         />
                         {formik.errors.email ? <div>{formik.errors.email}</div> : null}
                         <TextField
+                            color={'secondary'}
                             type="password"
                             label="Password"
                             margin="normal"
@@ -74,14 +79,15 @@ export const Login = () => {
 
                         />
                         {formik.errors.password ? <div>{formik.errors.password}</div> : null}
-                        <FormControlLabel label={'Remember me'}
-                                          control={
-                            <Checkbox
-                                checked={formik.values.rememberMe}
-                                {...formik.getFieldProps('rememberMe')}
-                            />
-                        }/>
-                        <Button type={'submit'} variant={'contained'} color={'primary'}>
+                        <FormControlLabel
+                            label={'Remember me'}
+                            control={
+                                <Checkbox color={'default'}
+                                          checked={formik.values.rememberMe}
+                                          {...formik.getFieldProps('rememberMe')}
+                                />
+                            }/>
+                        <Button type={'submit'} variant={'contained'} color={'secondary'}>
                             Login
                         </Button>
                     </FormGroup>

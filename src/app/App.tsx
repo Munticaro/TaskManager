@@ -10,12 +10,12 @@ import {Menu} from '@mui/icons-material';
 import {CircularProgress, CssBaseline, LinearProgress} from "@mui/material";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useAppDispatch, useAppSelector} from "../store/store";
-import {isInitializedAppTC, RequestStatusType} from "../store/slice/app-slice/app-slice";
+import {isInitializedApp, RequestStatusType} from "../store/slice/app-slice/app-slice";
 import React, {useEffect} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {logoutTC} from "../store/slice/auth-slice/auth-slice";
+import {authThunks} from "../store/slice/auth-slice/auth-slice";
 
 type AppPT = {
     demo?: boolean
@@ -31,7 +31,7 @@ function App({demo = false, ...props}: AppPT) {
 
     useEffect(() => {
         if (!demo) {
-            dispatch(isInitializedAppTC())
+            dispatch(isInitializedApp())
         }
     }, [])
 
@@ -59,7 +59,7 @@ function App({demo = false, ...props}: AppPT) {
     });
 
     const logoutHandler = () => {
-        dispatch(logoutTC())
+        dispatch(authThunks.logout())
     }
 
     return (
@@ -74,7 +74,7 @@ function App({demo = false, ...props}: AppPT) {
                                 <Menu/>
                             </IconButton>
                             <Typography variant="h6">
-                                News
+                                Todolist
                             </Typography>
                             <Button color="inherit"
                                     variant={'outlined'}
