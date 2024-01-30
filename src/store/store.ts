@@ -24,7 +24,6 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, Action>
 export type AppDispatch = ThunkDispatch<AppRootStateType, any, Action>
 export const useAppDispatch = useDispatch<AppDispatch>
-export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
 // @ts-ignore
 window.store = store;

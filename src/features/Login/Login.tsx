@@ -8,15 +8,17 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {FormikHelpers, useFormik} from "formik";
-import {useAppDispatch, useAppSelector} from "../../store/store";
+import {useAppDispatch} from "../../store/store";
 import {Navigate} from "react-router-dom";
 import {authThunks} from "../../store/slice/auth-slice/auth-slice";
 import {LoginParamsType} from "../../api/todolist-api/todolists-api";
+import {useSelector} from "react-redux";
+import {selectIsLoggedIn} from "./auth.selectors";
 
 export const Login = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn =
-        useAppSelector(state => state.auth.isLoggedIn)
+        useSelector(selectIsLoggedIn)
 
     const formik = useFormik({
         validate: (values) => {
@@ -37,7 +39,7 @@ export const Login = () => {
             rememberMe: false
         },
         onSubmit: async (values, formikHelpers: FormikHelpers<LoginParamsType>) => {
-            const res = await dispatch(authThunks.login(values))
+            await dispatch(authThunks.login(values))
             formikHelpers.setFieldError("email", 'ne to vvel braza')
 
         },

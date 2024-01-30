@@ -9,13 +9,16 @@ import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
 import {CircularProgress, CssBaseline, LinearProgress} from "@mui/material";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {useAppDispatch, useAppSelector} from "../store/store";
-import {isInitializedApp, RequestStatusType} from "../store/reducer/app-reducer/app-reducer";
+import {useAppDispatch} from "../store/store";
+import {isInitializedApp} from "../store/reducer/app-reducer/app-reducer";
 import React, {useEffect} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {authThunks} from "../store/slice/auth-slice/auth-slice";
+import {selectAppStatus, selectIsInitialized} from "./app.selector";
+import {selectIsLoggedIn} from "../features/Login/auth.selectors";
+import {useSelector} from "react-redux";
 
 type AppPT = {
     demo?: boolean
@@ -24,10 +27,9 @@ type AppPT = {
 function App({demo = false, ...props}: AppPT) {
 
     const dispatch = useAppDispatch()
-
-    const status = useAppSelector<RequestStatusType>((state) => state.app.status)
-
-    const isInitialized = useAppSelector((state) => state.app.isInitialized)
+    const status = useSelector(selectAppStatus);
+    const isInitialized = useSelector(selectIsInitialized);
+    const isLoggedIn = useSelector(selectIsLoggedIn);
 
     useEffect(() => {
         if (!demo) {
@@ -36,17 +38,9 @@ function App({demo = false, ...props}: AppPT) {
     }, [])
 
 
-
     if (!isInitialized) {
         return (
-            <div
-                style={{
-                    position: "fixed",
-                    top: "40%",
-                    textAlign: "center",
-                    width: "100%",
-                }}
-            >
+            <div style={{position: "fixed", top: "40%", textAlign: "center", width: "100%",}}>
                 <CircularProgress/>
             </div>
         )
@@ -76,10 +70,13 @@ function App({demo = false, ...props}: AppPT) {
                             <Typography variant="h6">
                                 Todolist
                             </Typography>
-                            <Button color="inherit"
-                                    variant={'outlined'}
-                                    onClick={logoutHandler}
-                                    style={{marginLeft: "auto"}}>Logout</Button>
+                            {isLoggedIn && (
+                                <Button color="inherit"
+                                        variant={'outlined'}
+                                        onClick={logoutHandler}
+                                        style={{marginLeft: "auto"}}>Logout
+                                </Button>)}
+
                         </Toolbar>
                         {status === 'loading' && <LinearProgress color="secondary"/>}
                     </AppBar>
