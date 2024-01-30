@@ -26,7 +26,7 @@ export const Task = React.memo((props: TaskPT) => {
             <Checkbox
                 onChange={onChangeStatusHandler}
                 checked={props.task.status === TaskStatuses.Completed}
-                color={'success'}
+                color={'warning'}
             />
             <EditableSpan
                 title={props.task.title}

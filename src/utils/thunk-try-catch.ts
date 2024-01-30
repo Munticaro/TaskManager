@@ -3,7 +3,7 @@ import { handleServerNetworkError } from "../../../IT-INCUBATOR/it-incubator-tod
 import { BaseThunkAPI } from "@reduxjs/toolkit/dist/createAsyncThunk";
 
 import { BaseResponseType } from "../../../IT-INCUBATOR/it-incubator-todolist-ts-20/src/common/types";
-import {appActions} from "../store/slice/app-slice/app-slice";
+import {appActions} from "../store/reducer/app-reducer/app-reducer";
 
 export const thunkTryCatch = async <T>(
   thunkAPI: BaseThunkAPI<AppRootStateType, unknown, AppDispatch, null | BaseResponseType>,

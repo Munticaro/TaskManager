@@ -2,17 +2,17 @@ import React from 'react'
 import {Provider} from "react-redux";
 import {AppRootStateType} from "./store";
 import {combineReducers} from "redux";
-import {tasksSlice} from './slice/task-slice/tasks-slice';
-import {todolistsSlice} from "./slice/todolists-slice/todolists-slice";
+import {tasksReducer} from './reducer/task-reducer/tasks-reducer';
+import {todolistsReducer} from "./reducer/todolists-reducer/todolists-reducer";
 import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api/todolists-api";
-import {appSlice, RequestStatusType} from "./slice/app-slice/app-slice";
+import {appReducer, RequestStatusType} from "./reducer/app-reducer/app-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 
 const rootReducer = combineReducers({
-    tasks: tasksSlice,
-    todolists: todolistsSlice,
-    app: appSlice
+    tasks: tasksReducer,
+    todolists: todolistsReducer,
+    app: appReducer
 })
 
 const initialGlobalState: AppRootStateType = {

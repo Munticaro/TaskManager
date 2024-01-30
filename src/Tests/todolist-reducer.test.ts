@@ -1,11 +1,11 @@
 import {
     FilterValuesType,
     TodolistDomainType, todolistsActions,
-    todolistsSlice
-} from '../store/slice/todolists-slice/todolists-slice'
+    todolistsReducer, todolistThunks
+} from '../store/reducer/todolists-reducer/todolists-reducer'
 import {v1} from 'uuid'
 import {TodolistType} from "../api/todolist-api/todolists-api";
-import {RequestStatusType} from "../store/slice/app-slice/app-slice";
+import {RequestStatusType} from "../store/reducer/app-reducer/app-reducer";
 
 let todolistId1: string
 let todolistId2: string
@@ -23,26 +23,30 @@ beforeEach(() => {
 })
 
 test('correct todolist should be removed', () => {
-    const endState = todolistsSlice(startState, todolistsActions.removeTodolist({id: todolistId1}))
+    const arg = {id: todolistId1}
+    const action = todolistThunks.removeTodolist.fulfilled(arg, 'requestId', 'todolistId2')
+    const endState = todolistsReducer(startState, action)
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe(todolistId2)
 })
 
-test('correct todolist should be added', () => {
-
+test("correct todolist should be added", () => {
     let todolist: TodolistType = {
-        id: 'any id',
-        addedDate: '',
+        title: "New Todolist",
+        id: "any id",
+        addedDate: "",
         order: 0,
-        title: 'What to learn'
-    }
+    };
 
-    const endState = todolistsSlice(startState, todolistsActions.addTodolist({todolist}))
+    const endState = todolistsReducer(
+        startState,
+        todolistThunks.addTodolist.fulfilled({ todolist }, "requestId", todolist.title),
+    );
 
-    expect(endState.length).toBe(3)
-    expect(endState[0].title).toBe(todolist.title)
-    expect(endState[0].filter).toBe('all')
-})
+    expect(endState.length).toBe(3);
+    expect(endState[0].title).toBe(todolist.title);
+    expect(endState[0].filter).toBe("all");
+});
 
 test('correct todolist should be change its name', () => {
     let todolistId1 = v1()
@@ -55,7 +59,7 @@ test('correct todolist should be change its name', () => {
         {id: todolistId2, title: 'What to buy', filter: 'all', addedDate: 'todolistId2', order: 0, entityStatus: "loading"}
     ]
 
-    const endState = todolistsSlice(startState, todolistsActions.changeTodolistTitle({id: todolistId2, title: newTodolistTitle}))
+    const endState = todolistsReducer(startState, todolistsActions.changeTodolistTitle({id: todolistId2, title: newTodolistTitle}))
 
     expect(endState[0].title).toBe('What to learn')
     expect(endState[1].title).toBe(newTodolistTitle)
@@ -72,16 +76,17 @@ test('correct filter of todolist should be changed', () => {
         {id: todolistId2, title: 'What to buy', filter: 'all', addedDate: 'todolistId2', order: 0, entityStatus: "loading"}
     ]
 
-    const endState = todolistsSlice(startState, todolistsActions.changeTodolistFilter({id: todolistId2, filter}))
+    const endState = todolistsReducer(startState, todolistsActions.changeTodolistFilter({id: todolistId2, filter}))
 
     expect(endState[0].filter).toBe('all')
     expect(endState[1].filter).toBe(filter)
 })
 
 test('todolists should be set to the state', () => {
-    const action = todolistsActions.setTodolists({todolists: startState})
+    const arg = {todolists: startState}
+    const action = todolistThunks.fetchTodolists.fulfilled(arg, 'requestId')
 
-    const endState = todolistsSlice([], action)
+    const endState = todolistsReducer([], action)
 
     expect(endState.length).toBe(2)
 })
@@ -97,7 +102,7 @@ test('correct set status change of todolist should be changed', () => {
         {id: todolistId2, title: 'What to buy', filter: 'all', addedDate: 'todolistId2', order: 0, entityStatus: "succeeded"}
     ]
 
-    const endState = todolistsSlice(startState, todolistsActions.setTodolistEntityStatus({id: todolistId2, status: newStatus}))
+    const endState = todolistsReducer(startState, todolistsActions.setTodolistEntityStatus({id: todolistId2, status: newStatus}))
 
     expect(endState[0].entityStatus).toBe('loading')
     expect(endState[1].entityStatus).toBe(newStatus)

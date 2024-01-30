@@ -10,7 +10,7 @@ import {Menu} from '@mui/icons-material';
 import {CircularProgress, CssBaseline, LinearProgress} from "@mui/material";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useAppDispatch, useAppSelector} from "../store/store";
-import {isInitializedApp, RequestStatusType} from "../store/slice/app-slice/app-slice";
+import {isInitializedApp, RequestStatusType} from "../store/reducer/app-reducer/app-reducer";
 import React, {useEffect} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";

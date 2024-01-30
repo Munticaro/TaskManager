@@ -19,7 +19,8 @@ export const EditableSpan = React.memo((props: EditableSpanType) => {
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
     return (
         editMode
-            ? <TextField id="standard-basic"
+            ? <TextField color={'warning'}
+                         id="standard-basic"
                          label="Standard"
                          variant="standard"
                          value={title}

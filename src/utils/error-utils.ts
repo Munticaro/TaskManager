@@ -1,4 +1,4 @@
-import {appActions} from "../store/slice/app-slice/app-slice";
+import {appActions} from "../store/reducer/app-reducer/app-reducer";
 import {ResponseType} from "../api/todolist-api/todolists-api";
 import {Dispatch} from "redux";
 import axios, {AxiosError} from "axios";

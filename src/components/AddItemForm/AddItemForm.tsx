@@ -30,6 +30,7 @@ export const AddItemForm: FC<AddItemFormProps> = React.memo(({ addItem, disabled
     return (
         <div>
             <TextField
+                color={'warning'}
                 variant="outlined"
                 disabled={disabled}
                 error={!!error}

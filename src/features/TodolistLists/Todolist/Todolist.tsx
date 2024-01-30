@@ -3,11 +3,11 @@ import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "../../../api/todolist-api/todolists-api";
-import {FilterValuesType, TodolistDomainType} from "../../../store/slice/todolists-slice/todolists-slice";
+import {FilterValuesType, TodolistDomainType} from "../../../store/reducer/todolists-reducer/todolists-reducer";
 import {AppDispatch, useAppDispatch} from "../../../store/store";
 import {Button, IconButton} from "@mui/material";
 import {PlaylistRemove} from "@mui/icons-material";
-import {tasksThunks} from "../../../store/slice/task-slice/tasks-slice";
+import {tasksThunks} from "../../../store/reducer/task-reducer/tasks-reducer";
 
 type PropsType = {
     todolist: TodolistDomainType

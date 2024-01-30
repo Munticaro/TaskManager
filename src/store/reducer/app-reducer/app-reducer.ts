@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {authActions} from "../auth-slice/auth-slice";
+import {authActions} from "../../slice/auth-slice/auth-slice";
 import {authAPI} from "../../../api/auth-api/auth-api";
 
 
@@ -37,7 +37,7 @@ export const slice = createSlice({
 })
 
 export const appActions = slice.actions
-export const appSlice = slice.reducer
+export const appReducer = slice.reducer
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 

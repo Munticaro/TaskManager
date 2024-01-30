@@ -1,18 +1,18 @@
-import {tasksSlice} from './slice/task-slice/tasks-slice';
-import {todolistsSlice} from './slice/todolists-slice/todolists-slice';
+import {tasksReducer} from './reducer/task-reducer/tasks-reducer';
+import {todolistsReducer} from './reducer/todolists-reducer/todolists-reducer';
 import {Action, combineReducers} from 'redux';
 
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {appSlice} from "./slice/app-slice/app-slice";
+import {appReducer} from "./reducer/app-reducer/app-reducer";
 import {authSlice} from "./slice/auth-slice/auth-slice";
 import {configureStore} from "@reduxjs/toolkit";
 
 
 const rootReducer = combineReducers({
-    tasks: tasksSlice,
-    todolists: todolistsSlice,
-    app: appSlice,
+    tasks: tasksReducer,
+    todolists: todolistsReducer,
+    app: appReducer,
     auth: authSlice
 })
 

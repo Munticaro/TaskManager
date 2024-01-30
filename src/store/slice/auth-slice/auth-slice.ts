@@ -1,7 +1,7 @@
 import {LoginParamsType} from "../../../api/todolist-api/todolists-api";
 import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {appActions} from "../app-slice/app-slice";
+import {appActions} from "../../reducer/app-reducer/app-reducer";
 import {authAPI} from "../../../api/auth-api/auth-api";
 import {clearTodolistsAndTasks} from "../../../common/actions/common.actions";
 
