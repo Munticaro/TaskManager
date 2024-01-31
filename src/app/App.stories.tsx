@@ -1,18 +1,11 @@
-import React from 'react';
-import App from './App';
-import {
-  ReduxStoreProviderDecorator
-} from '../store/ReduxStoreProviderDecorator';
+import React from 'react'
+import App from './App'
+import { ReduxStoreProviderDecorator } from 'app/ReduxStoreProviderDecorator'
 
 export default {
-  title: 'TODOLISTS/App',
-  component: App,
-  decorators: [ReduxStoreProviderDecorator]
-};
+    title: 'TODOLISTS/App',
+    component: App,
+    decorators: [ReduxStoreProviderDecorator],
+}
 
-export const AppStory = (props: any) =>
-    <App demo={true} />
-
-
-
-
+export const AppStory = (props: any) => <App demo={true} />
