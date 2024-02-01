@@ -13,33 +13,42 @@ import { useSelector } from 'react-redux'
 import { selectIsLoggedIn } from 'features/auth/model/authSelectors'
 import { useAppDispatch } from 'common/hooks/useAppDispatch'
 import { authThunks } from 'features/auth/model/authSlice'
+import { BaseResponseType } from 'common/types'
 import { LoginParamsType } from 'features/auth/api/authApi.types'
+import s from './login.module.css'
 
 export const Login = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useSelector(selectIsLoggedIn)
 
     const formik = useFormik({
-        validate: (values) => {
-            if (!values.email) {
-                return {
-                    email: 'Email is required!',
-                }
-            }
-            if (!values.password) {
-                return {
-                    password: 'Password is required!',
-                }
-            }
-        },
+        // validate: (values) => {
+        //     if (!values.email) {
+        //         return {
+        //             email: 'Email is required!',
+        //         }
+        //     }
+        //     if (!values.password) {
+        //         return {
+        //             password: 'Password is required!',
+        //         }
+        //     }
+        // },
         initialValues: {
             email: '',
             password: '',
             rememberMe: false,
         },
-        onSubmit: async (values, formikHelpers: FormikHelpers<LoginParamsType>) => {
-            await dispatch(authThunks.login(values))
-            formikHelpers.setFieldError('email', 'ne to vvel braza')
+
+        onSubmit: (values, formikHelpers: FormikHelpers<LoginParamsType>) => {
+            dispatch(authThunks.login(values))
+                .unwrap()
+                .catch((reason: BaseResponseType) => {
+                    debugger
+                    reason.fieldsErrors?.forEach((fieldError) => {
+                        formikHelpers.setFieldError(fieldError.field, fieldError.error)
+                    })
+                })
         },
     })
 
@@ -71,7 +80,7 @@ export const Login = () => {
                                 margin='normal'
                                 {...formik.getFieldProps('email')}
                             />
-                            {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+                            {formik.errors.email ? <p className={s.error}>{formik.errors.email}</p> : null}
                             <TextField
                                 color={'secondary'}
                                 type='password'
@@ -79,7 +88,7 @@ export const Login = () => {
                                 margin='normal'
                                 {...formik.getFieldProps('password')}
                             />
-                            {formik.errors.password ? <div>{formik.errors.password}</div> : null}
+                            {formik.errors.password ? <p className={s.error}>{formik.errors.password}</p> : null}
                             <FormControlLabel
                                 label={'Remember me'}
                                 control={

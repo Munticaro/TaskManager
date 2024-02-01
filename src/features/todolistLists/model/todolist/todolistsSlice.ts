@@ -56,7 +56,7 @@ const changeTodolistTitle = createAsyncThunk(
     },
 )
 
-export const slice = createSlice({
+const slice = createSlice({
     name: 'todolists',
     initialState: [] as TodolistDomainType[],
     reducers: {

@@ -1,17 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { authApi } from 'features/auth/api/authApi'
-import { authActions } from 'features/auth/model/authSlice'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export const isInitializedApp = createAsyncThunk('app/initializeApp', async (arg, thunkAPI) => {
-    const { dispatch } = thunkAPI
-    const res = await authApi.me()
-    if (res.data.resultCode === 0) {
-        dispatch(authActions.setLoggedIn({ isLoggedIn: true }))
-        dispatch(appActions.setAppStatus({ status: 'succeeded' }))
-    }
-})
-
-export const slice = createSlice({
+const slice = createSlice({
     name: 'app',
     initialState: {
         error: null as null | string,
@@ -25,11 +14,9 @@ export const slice = createSlice({
         setAppError: (state, action: PayloadAction<{ error: string | null }>) => {
             state.error = action.payload.error
         },
-    },
-    extraReducers: (builder) => {
-        builder.addCase(isInitializedApp.fulfilled, (state) => {
-            state.isInitialized = true
-        })
+        setAppInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
+            state.isInitialized = action.payload.isInitialized
+        },
     },
 })
 

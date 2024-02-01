@@ -1,6 +1,6 @@
 import React from 'react'
-import App from './App'
-import { ReduxStoreProviderDecorator } from 'app/ReduxStoreProviderDecorator'
+import App from 'app/app'
+import { ReduxStoreProviderDecorator } from 'app/reduxStoreProviderDecorator'
 
 export default {
     title: 'TODOLISTS/App',

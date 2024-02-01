@@ -1,4 +1,4 @@
-import './App.css'
+import 'app/app.css'
 import { TodolistsList } from 'features/todolistLists/ui/todolist/todolistLists'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
@@ -8,47 +8,37 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import { Menu } from '@mui/icons-material'
 import { CircularProgress, CssBaseline, LinearProgress } from '@mui/material'
-import { isInitializedApp } from 'app/appSlice'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Login } from 'features/auth/ui/Login/Login'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { selectAppStatus, selectIsInitialized } from './app.selector'
+import { selectAppStatus, selectIsInitialized } from 'app/appSelector'
 import { selectIsLoggedIn } from 'features/auth/model/authSelectors'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'common/hooks/useAppDispatch'
 import { authThunks } from 'features/auth/model/authSlice'
 import { ErrorSnackbar } from 'common/components'
+import { Login } from 'features/auth/ui/Login/login'
+import { useActions } from 'common/hooks'
 
 type AppPT = {
     demo?: boolean
 }
 
 function App({ demo = false, ...props }: AppPT) {
-    const dispatch = useAppDispatch()
     const status = useSelector(selectAppStatus)
     const isInitialized = useSelector(selectIsInitialized)
     const isLoggedIn = useSelector(selectIsLoggedIn)
 
+    const { isInitializedApp, logout } = useActions(authThunks)
+
     useEffect(() => {
         if (!demo) {
-            dispatch(isInitializedApp())
+            isInitializedApp()
         }
     }, [])
 
-    if (!isInitialized) {
-        return (
-            <div
-                style={{
-                    position: 'fixed',
-                    top: '40%',
-                    textAlign: 'center',
-                    width: '100%',
-                }}
-            >
-                <CircularProgress />
-            </div>
-        )
+    const logoutHandler = () => {
+        logout()
     }
 
     const darkTheme = createTheme({
@@ -57,8 +47,22 @@ function App({ demo = false, ...props }: AppPT) {
         },
     })
 
-    const logoutHandler = () => {
-        dispatch(authThunks.logout())
+    if (!isInitialized) {
+        return (
+            <ThemeProvider theme={darkTheme}>
+                <CssBaseline />
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '40%',
+                        textAlign: 'center',
+                        width: '100%',
+                    }}
+                >
+                    <CircularProgress color={'warning'} />
+                </div>
+            </ThemeProvider>
+        )
     }
 
     return (

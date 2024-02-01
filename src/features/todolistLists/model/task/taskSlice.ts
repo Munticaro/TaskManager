@@ -9,6 +9,7 @@ import { clearTodolistsAndTasks } from 'common/actions/common.actions'
 import { ResultCode, TaskPriorities, TaskStatuses } from 'common/enums'
 import { todolistAPI } from 'features/todolistLists/api/todolistApi'
 import { TaskType, UpdateTaskType } from 'features/todolistLists/api/todolistApi.types'
+import { thunkTryCatch } from 'common/utils/thunkTryCatch'
 
 const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }, string>(
     'tasks/fetchTask',
@@ -44,7 +45,7 @@ const removeTask = createAppAsyncThunk<RemoveTaskArgType, RemoveTaskArgType>(
 
 const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgsType>('tasks/addTask', async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    try {
+    return thunkTryCatch(thunkAPI, async () => {
         const res = await todolistAPI.createTask(arg.title, arg.todolistId)
         if (res.data.resultCode === ResultCode.Success) {
             const task = res.data.data.item
@@ -54,10 +55,7 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgsType>('tasks/
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
         }
-    } catch (error) {
-        handleServerNetworkError(error, dispatch)
-        return rejectWithValue(null)
-    }
+    })
 })
 
 const updateTask = createAppAsyncThunk<UpdateTasksArgsType, UpdateTasksArgsType>(
@@ -95,7 +93,7 @@ const updateTask = createAppAsyncThunk<UpdateTasksArgsType, UpdateTasksArgsType>
         }
     },
 )
-export const slice = createSlice({
+const slice = createSlice({
     name: 'tasks',
     initialState: {} as TasksStateType,
     reducers: {},
