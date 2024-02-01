@@ -95,7 +95,6 @@ const updateTask = createAppAsyncThunk<UpdateTasksArgsType, UpdateTasksArgsType>
         }
     },
 )
-
 export const slice = createSlice({
     name: 'tasks',
     initialState: {} as TasksStateType,
