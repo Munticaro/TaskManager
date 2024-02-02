@@ -3,9 +3,9 @@ import App from 'app/app'
 import { ReduxStoreProviderDecorator } from 'app/reduxStoreProviderDecorator'
 
 export default {
-    title: 'TODOLISTS/App',
-    component: App,
-    decorators: [ReduxStoreProviderDecorator],
+  title: 'TODOLISTS/App',
+  component: App,
+  decorators: [ReduxStoreProviderDecorator],
 }
 
 export const AppStory = (props: any) => <App demo={true} />

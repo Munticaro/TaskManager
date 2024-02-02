@@ -6,12 +6,12 @@ import { authSlice } from 'features/auth/model/authSlice'
 import { todolistsSlice } from 'features/todolistLists/model/todolist/todolistsSlice'
 import { tasksSlice } from 'features/todolistLists/model/task/taskSlice'
 export const store = configureStore({
-    reducer: {
-        tasks: tasksSlice,
-        todolists: todolistsSlice,
-        app: appSlice,
-        auth: authSlice,
-    },
+  reducer: {
+    tasks: tasksSlice,
+    todolists: todolistsSlice,
+    app: appSlice,
+    auth: authSlice,
+  },
 })
 
 export type AppRootStateType = ReturnType<typeof store.getState>
