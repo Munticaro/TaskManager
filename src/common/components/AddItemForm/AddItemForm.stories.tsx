@@ -71,10 +71,10 @@ const AddItemFormStory = (props: AddItemFormProps) => {
   )
 }
 
-export const AddItemFormWithError: Story = {
-  render: () => <AddItemFormStory addItem={action('Button clicked inside form')} />,
-}
-
-export const AddItemFormDisabled: Story = {
-  render: () => <AddItemFormStory disabled={true} addItem={action('Button clicked inside form')} />,
-}
+// export const AddItemFormWithError: Story = {
+//   render: () => <AddItemFormStory addItem={action('Button clicked inside form')} />,
+// }
+//
+// export const AddItemFormDisabled: Story = {
+//   render: () => <AddItemFormStory disabled={true} addItem={action('Button clicked inside form')} />,
+// }

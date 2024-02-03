@@ -1,27 +1,33 @@
 import React, { ChangeEvent, FC, KeyboardEvent, useState } from 'react'
 import { IconButton, TextField } from '@mui/material'
 import { PlaylistAdd } from '@mui/icons-material'
+import { BaseResponseType } from 'common/types'
 
 export type AddItemFormProps = {
-  addItem: (title: string) => void
+  addItem: (title: string) => Promise<any>
   disabled?: boolean
 }
 export const AddItemForm: FC<AddItemFormProps> = React.memo(({ addItem, disabled = false }) => {
   const [title, setTitle] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const newTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value)
   }
-  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+  const keyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (error !== null) {
       setError(null)
     }
-    if (e.charCode === 13) addTask()
+    if (e.charCode === 13) addItemHandler()
   }
-  const addTask = () => {
+  const addItemHandler = () => {
     if (title.trim() !== '') {
       addItem(title)
-      setTitle('')
+        .then(() => {
+          setTitle('')
+        })
+        .catch((err: BaseResponseType) => {
+          setError(err.messages[0])
+        })
     } else {
       setError('Its not good!')
     }
@@ -29,19 +35,19 @@ export const AddItemForm: FC<AddItemFormProps> = React.memo(({ addItem, disabled
   return (
     <div>
       <TextField
-        color={'warning'}
+        color='warning'
         variant='outlined'
         disabled={disabled}
         error={!!error}
         value={title}
-        onChange={onNewTitleChangeHandler}
-        onKeyPress={onKeyPressHandler}
+        onChange={newTitleChangeHandler}
+        onKeyPress={keyPressHandler}
         label='Title'
+        helperText={error}
       />
-      <IconButton onClick={addTask} disabled={disabled}>
+      <IconButton onClick={addItemHandler} disabled={disabled}>
         <PlaylistAdd />
       </IconButton>
-      {error && <div className='error-message'>{error}</div>}
     </div>
   )
 })
