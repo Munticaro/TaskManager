@@ -38,10 +38,10 @@ export const Login = () => {
               <p>Password: free</p>
             </FormLabel>
             <FormGroup>
-              <TextField color={'secondary'} label='Email' margin='normal' {...formik.getFieldProps('email')} />
+              <TextField color={'warning'} label='Email' margin='normal' {...formik.getFieldProps('email')} />
               {formik.touched.email && formik.errors.email && <p className={s.error}>{formik.errors.email}</p>}
               <TextField
-                color={'secondary'}
+                color={'warning'}
                 type='password'
                 label='Password'
                 margin='normal'
@@ -52,14 +52,14 @@ export const Login = () => {
                 label={'Remember me'}
                 control={
                   <Checkbox
-                    color={'default'}
+                    color={'warning'}
                     {...formik.getFieldProps('rememberMe')}
                     checked={formik.values.rememberMe}
                   />
                 }
               />
               <Button
-                color={'secondary'}
+                color={'warning'}
                 type={'submit'}
                 variant={'contained'}
                 disabled={!(formik.isValid && formik.dirty)}
