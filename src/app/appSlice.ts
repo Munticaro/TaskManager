@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Action, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const slice = createSlice({
   name: 'app',
@@ -8,15 +8,39 @@ const slice = createSlice({
     isInitialized: false,
   },
   reducers: {
-    setAppStatus: (state, action: PayloadAction<{ status: RequestStatusType }>) => {
-      state.status = action.payload.status
-    },
     setAppError: (state, action: PayloadAction<{ error: string | null }>) => {
       state.error = action.payload.error
     },
     setAppInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
       state.isInitialized = action.payload.isInitialized
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        (action: Action) => {
+          return action.type.endsWith('/pending')
+        },
+        (state, action) => {
+          state.status = 'loading'
+        },
+      )
+      .addMatcher(
+        (action: Action) => {
+          return action.type.endsWith('/fulfilled')
+        },
+        (state, action) => {
+          state.status = 'succeeded'
+        },
+      )
+      .addMatcher(
+        (action: Action) => {
+          return action.type.endsWith('/rejected')
+        },
+        (state, action) => {
+          state.status = 'failed'
+        },
+      )
   },
 })
 

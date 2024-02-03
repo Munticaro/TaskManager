@@ -81,8 +81,22 @@ function App({ demo = false, ...props }: AppPT) {
                 </Button>
               )}
             </Toolbar>
-            {status === 'loading' && <LinearProgress color='secondary' />}
           </AppBar>
+          {status === 'loading' && (
+            <div>
+              <LinearProgress
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  marginTop: '64px',
+                  zIndex: 100,
+                }}
+                color='warning'
+              />
+            </div>
+          )}
           <Container fixed>
             <Routes>
               <Route path={'/'} element={<TodolistsList demo={demo} />} />
