@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { appActions, RequestStatusType } from 'app/appSlice'
+import { RequestStatusType } from 'app/appSlice'
 import { clearTodolistsAndTasks } from 'common/actions/common.actions'
 import { todolistAPI } from 'features/todolistLists/api/todolist/todolistApi'
 import { TodolistType, UpdateTodolistTitleArgType } from 'features/todolistLists/api/todolist/todolistApi.types'
@@ -19,7 +19,6 @@ const fetchTodolist = createAppAsyncThunk<{ todolists: TodolistType[] }, void>(
 
 const removeTodolist = createAppAsyncThunk('todolist/removeTodolist', async (id: string, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI
-  dispatch(appActions.setAppStatus({ status: 'loading' }))
   dispatch(todolistsActions.setTodolistEntityStatus({ id, status: 'loading' }))
   return thunkTryCatch(thunkAPI, async () => {
     const res = await todolistAPI.deleteTodolist(id)
@@ -40,8 +39,8 @@ const addTodolist = createAppAsyncThunk('todolist/addTodolist', async (title: st
       if (res.data.resultCode === ResultCode.Success) {
         return { todolist: res.data.data.item }
       } else {
-        handleServerAppError(res.data, dispatch)
-        return rejectWithValue(null)
+        handleServerAppError(res.data, dispatch, false)
+        return rejectWithValue(res.data)
       }
     })
   })

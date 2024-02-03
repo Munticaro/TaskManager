@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useCallback } from 'react'
 import { EditableSpan } from 'common/components/EditableSpan/EditableSpan'
 import { Checkbox, IconButton } from '@mui/material'
-import { RemoveCircleOutline } from '@mui/icons-material'
+import CloseIcon from '@mui/icons-material/Close'
 import { TaskStatuses } from 'common/enums'
 import { TaskType } from 'features/todolistLists/api/task/taskApi.types'
 import { tasksThunks } from 'features/todolistLists/model/task/taskSlice'
 import { AppDispatch } from 'app/store'
 import { useAppDispatch } from 'common/hooks'
-import s from './task.module.css'
+import s from 'features/todolistLists/ui/tasks/task/task.module.css'
 
 type Props = {
   task: TaskType
@@ -41,7 +41,7 @@ export const Task = React.memo(({ task, todoListId }: Props) => {
       <Checkbox onChange={changeStatusHandler} checked={task.status === TaskStatuses.Completed} color={'warning'} />
       <EditableSpan title={task.title} onChange={changeTaskTitleHandler} />
       <IconButton onClick={deleteHandler}>
-        <RemoveCircleOutline />
+        <CloseIcon fontSize={'small'} />
       </IconButton>
     </div>
   )

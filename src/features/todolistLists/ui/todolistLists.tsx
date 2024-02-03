@@ -5,50 +5,42 @@ import { Navigate } from 'react-router-dom'
 import { selectTask } from 'features/todolistLists/model/task/selectTask'
 import { selectIsLoggedIn } from 'features/auth/model/authSelectors'
 import { useSelector } from 'react-redux'
-import { AppDispatch } from 'app/store'
-import { useAppDispatch } from 'common/hooks/useAppDispatch'
 import { Todolist } from 'features/todolistLists/ui/todolist/todolist'
-import {
-  FilterValuesType,
-  todolistsActions,
-  todolistThunks,
-} from 'features/todolistLists/model/todolist/todolistsSlice'
-import { tasksThunks } from 'features/todolistLists/model/task/taskSlice'
+import { todolistThunks } from 'features/todolistLists/model/todolist/todolistsSlice'
 import { selectTodolist } from 'features/todolistLists/model/todolist/selectorTodolist'
-import { TaskStatuses } from 'common/enums'
+import { useActions } from 'common/hooks'
 
-type TodolistListsPT = {
+type Props = {
   demo?: boolean
 }
 
-export const TodolistsList: React.FC<TodolistListsPT> = ({ demo = false }) => {
+export const TodolistsList = ({ demo = false }: Props) => {
   const todolists = useSelector(selectTodolist)
   const isLoggedIn = useSelector(selectIsLoggedIn)
   const tasks = useSelector(selectTask)
 
-  const dispatch: AppDispatch = useAppDispatch()
+  const {
+    fetchTodolists,
+    removeTodolist: removeTodolistThunk,
+    changeTodolistTitle: changeTodolistTitleThunk,
+    addTodolist: addTodolistThunk,
+  } = useActions(todolistThunks)
 
   useEffect(() => {
     if (demo || !isLoggedIn) {
       return
     }
-    dispatch(todolistThunks.fetchTodolists())
+    fetchTodolists()
   }, [])
 
-  const removeTodolist = useCallback(
-    (id: string) => {
-      dispatch(todolistThunks.removeTodolist(id))
-    },
-    [dispatch],
-  )
-  const changeTodolistTitle = useCallback(
-    (id: string, title: string) => {
-      dispatch(todolistThunks.changeTodolistTitle({ id, title }))
-    },
-    [dispatch],
-  )
+  const removeTodolist = useCallback((id: string) => {
+    removeTodolistThunk(id)
+  }, [])
+  const changeTodolistTitle = useCallback((id: string, title: string) => {
+    changeTodolistTitleThunk({ id, title })
+  }, [])
   const addTodolist = useCallback((title: string) => {
-    dispatch(todolistThunks.addTodolist(title))
+    return addTodolistThunk(title).unwrap()
   }, [])
 
   if (!isLoggedIn) {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Task } from 'features/todolistLists/ui/task/task'
+import { Task } from 'features/todolistLists/ui/tasks/task/task'
 import { TaskPriorities, TaskStatuses } from 'common/enums'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
