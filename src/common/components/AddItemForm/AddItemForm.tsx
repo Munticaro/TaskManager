@@ -26,7 +26,9 @@ export const AddItemForm: FC<AddItemFormProps> = React.memo(({ addItem, disabled
           setTitle('')
         })
         .catch((err: BaseResponseType) => {
-          setError(err.messages[0])
+          if (err?.resultCode) {
+            setError(err.messages[0])
+          }
         })
     } else {
       setError('Its not good!')

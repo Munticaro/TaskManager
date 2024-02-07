@@ -10,11 +10,7 @@ import { todolistThunks } from 'features/todolistLists/model/todolist/todolistsS
 import { selectTodolist } from 'features/todolistLists/model/todolist/selectorTodolist'
 import { useActions } from 'common/hooks'
 
-type Props = {
-  demo?: boolean
-}
-
-export const TodolistsList = ({ demo = false }: Props) => {
+export const TodolistsList = () => {
   const todolists = useSelector(selectTodolist)
   const isLoggedIn = useSelector(selectIsLoggedIn)
   const tasks = useSelector(selectTask)
@@ -27,9 +23,6 @@ export const TodolistsList = ({ demo = false }: Props) => {
   } = useActions(todolistThunks)
 
   useEffect(() => {
-    if (demo || !isLoggedIn) {
-      return
-    }
     fetchTodolists()
   }, [])
 
@@ -63,7 +56,6 @@ export const TodolistsList = ({ demo = false }: Props) => {
                   tasks={allTodolistTasks}
                   removeTodolist={removeTodolist}
                   changeTodolistTitle={changeTodolistTitle}
-                  demo={demo}
                 />
               </Paper>
             </Grid>

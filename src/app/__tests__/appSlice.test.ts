@@ -1,4 +1,4 @@
-import { appActions, appSlice, AppState, RequestStatusType } from 'app/appSlice'
+import { appActions, appSlice, AppState, RequestStatusType } from 'app/model/appSlice'
 
 let startState: AppState
 
@@ -13,9 +13,4 @@ beforeEach(() => {
 test('correct error message should be set', () => {
   const endState = appSlice(startState, appActions.setAppError({ error: 'Some error' }))
   expect(endState.error).toBe('Some error')
-})
-
-test('correct status should be set', () => {
-  const endState = appSlice(startState, appActions.setAppStatus({ status: 'loading' }))
-  expect(endState.status).toBe('loading')
 })

@@ -1,11 +1,11 @@
-import { appActions } from 'app/appSlice'
+import { appActions } from 'app/model/appSlice'
 import { Dispatch } from 'redux'
 import axios, { AxiosError } from 'axios'
 
 /**
- * handleServerNetworkError - функция для обработки ошибок сети или сервера.
- * @param e - объект ошибки.
- * @param dispatch - функция диспетчера Redux для отправки действий.
+ * handleServerNetworkError - a function for handling network or server errors.
+ * @param e - the error object.
+ * @param dispatch - the Redux dispatcher function for dispatching actions.
  */
 
 export const handleServerNetworkError = (e: unknown, dispatch: Dispatch) => {

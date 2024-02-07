@@ -1,4 +1,4 @@
-import { appSlice } from 'app/appSlice'
+import { appSlice } from 'app/model/appSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import { authSlice } from 'features/auth/model/authSlice'
 import { todolistsSlice } from 'features/todolistLists/model/todolist/todolistsSlice'

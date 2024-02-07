@@ -6,7 +6,7 @@ import { combineReducers } from 'redux'
 import { v1 } from 'uuid'
 
 import { configureStore } from '@reduxjs/toolkit'
-import { appSlice, RequestStatusType } from 'app/appSlice'
+import { appSlice, RequestStatusType } from 'app/model/appSlice'
 import { tasksSlice } from 'features/todolistLists/model/task/taskSlice'
 import { todolistsSlice } from 'features/todolistLists/model/todolist/todolistsSlice'
 import { AppRootStateType } from 'app/store'

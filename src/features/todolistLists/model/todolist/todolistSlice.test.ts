@@ -7,7 +7,7 @@ import {
 } from 'features/todolistLists/model/todolist/todolistsSlice'
 import { v1 } from 'uuid'
 import { TodolistType } from 'features/todolistLists/api/todolist/todolistApi.types'
-import { RequestStatusType } from 'app/appSlice'
+import { RequestStatusType } from 'app/model/appSlice'
 
 let todolistId1: string
 let todolistId2: string
@@ -138,36 +138,13 @@ test('todolists should be set to the state', () => {
   expect(endState.length).toBe(2)
 })
 
-test('correct set status change of todolist should be changed', () => {
-  let todolistId1 = v1()
-  let todolistId2 = v1()
-
+test('correct entity status of todolist should be changed', () => {
   let newStatus: RequestStatusType = 'loading'
 
-  const startState: Array<TodolistDomainType> = [
-    {
-      id: todolistId1,
-      title: 'What to learn',
-      filter: 'all',
-      addedDate: 'todolistId2',
-      order: 0,
-      entityStatus: 'loading',
-    },
-    {
-      id: todolistId2,
-      title: 'What to buy',
-      filter: 'all',
-      addedDate: 'todolistId2',
-      order: 0,
-      entityStatus: 'succeeded',
-    },
-  ]
+  const action = todolistsActions.setTodolistEntityStatus({ id: todolistId2, entityStatus: newStatus })
 
-  const endState = todolistsSlice(
-    startState,
-    todolistsActions.setTodolistEntityStatus({ id: todolistId2, status: newStatus }),
-  )
+  const endState = todolistsSlice(startState, action)
 
-  expect(endState[0].entityStatus).toBe('loading')
+  expect(endState[0].entityStatus).toBe('idle')
   expect(endState[1].entityStatus).toBe(newStatus)
 })
