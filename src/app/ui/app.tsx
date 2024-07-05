@@ -3,7 +3,6 @@ import { CircularProgress, CssBaseline, LinearProgress } from '@mui/material'
 import React, { useEffect } from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { selectAppStatus, selectIsInitialized } from 'app/model/appSelector'
-import { selectIsLoggedIn } from 'features/auth/model/authSelectors'
 import { useSelector } from 'react-redux'
 import { authThunks } from 'features/auth/model/authSlice'
 import { ErrorSnackbar } from 'common/components'
@@ -14,17 +13,12 @@ import { Header } from 'app/ui/header/header'
 function App() {
   const status = useSelector(selectAppStatus)
   const isInitialized = useSelector(selectIsInitialized)
-  const isLoggedIn = useSelector(selectIsLoggedIn)
 
-  const { isInitializedApp, logout } = useActions(authThunks)
+  const { isInitializedApp } = useActions(authThunks)
 
   useEffect(() => {
     isInitializedApp()
   }, [isInitializedApp])
-
-  const logoutHandler = () => {
-    logout()
-  }
 
   const darkTheme = createTheme({
     palette: {
